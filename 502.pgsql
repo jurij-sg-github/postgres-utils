@@ -19,7 +19,7 @@ daily_pgsql_backupdir="/mnt/volume/something"
 
 
 # defaults - there is usually no need to change anything below
-: ${daily_pgsql_mount_backup_dir_enable:="NO"} do not mount backup directory
+: ${daily_pgsql_mount_backup_share_enable:="NO"} do not mount backup directory
 : ${daily_pgsql_vacuum_enable:="NO"} # do VACUUM on all databases
 : ${daily_pgsql_savedays:="30"}
 : ${daily_pgsql_user:="enterprisedb"}
@@ -28,7 +28,7 @@ daily_pgsql_backupdir="/mnt/volume/something"
 : ${daily_pgsql_pgdump_args:="-U ${daily_pgsql_user} -p ${daily_pgsql_port} -bF c"}
 : ${daily_pgsql_pgdumpall_globals_args:="-U ${daily_pgsql_user} -p ${daily_pgsql_port}"}
 
-# allow '~´ in dir name
+# allow '~Â´ in dir name
 eval backupdir=${daily_pgsql_backupdir}
 
 rc=0
