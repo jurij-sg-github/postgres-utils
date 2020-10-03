@@ -37,6 +37,10 @@ mount_backup_share() {
 	mount -v -t nfs ${daily_pgsql_mount_nfs_server}:${daily_pgsql_mount_nfs_share} ${daily_pgsql_mount_nfs_mount_point}
 }
 
+unmount_backup_share() {
+	umount ${daily_pgsql_mount_nfs_mount_point}
+}
+
 
 pgsql_backup() {
 	# daily_pgsql_backupdir must be writeable by user daily_pgsql_user
@@ -85,7 +89,7 @@ case "$daily_pgsql_mount_backup_share_enable" in
 	if [ $? -gt 0 ]
 	then
 	    echo
-	    echo "Errors were reported during vacuum."
+	    echo "Errors were reported during mount."
 	    rc=3
 	fi
 	;;
@@ -107,6 +111,22 @@ case "$daily_pgsql_backup_enable" in
 	pgsql_backup $daily_pgsql_backup_enable
 	;;
 esac
+
+case "$daily_pgsql_mount_backup_share_enable" in
+    [Yy][Ee][Ss])
+
+	echo
+	echo "Unmounting backup directory"
+	unmount_backup_share
+	if [ $? -gt 0 ]
+	then
+	    echo
+	    echo "Errors were reported during unmount."
+	    rc=3
+	fi
+	;;
+esac
+
 
 case "$daily_pgsql_vacuum_enable" in
     [Yy][Ee][Ss])
